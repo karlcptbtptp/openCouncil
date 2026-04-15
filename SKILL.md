@@ -194,10 +194,11 @@ Single round. Best for clear-cut questions, sanity checks, and lightweight revie
 **Flow:**
 
 ```
-Step 0: Topic Confirmation + Emotional Intention
+Step 0: Topic Confirmation + Emotional Intention + Mode Selection
         Confirm the topic. Chair names the emotional arc of this discussion
         in one sentence — e.g. "This should move from doubt to clarity"
         or "We start concerned and end with a ranked action list."
+        Select discussion mode using the Auto Mode Decision Matrix (see above).
 Step 1: Chair opens (frames the question, sets boundaries)
 Step 2: All members speak in order (2-4 sentences each)
 Step 3: Anti-Consensus Check (see §Anti-False-Consensus)
@@ -222,9 +223,10 @@ and anything that needs a structured approval.
 **Flow:**
 
 ```
-B-0: Fact-Finding + Emotional Intention
+B-0: Fact-Finding + Emotional Intention + Mode Selection
      Read relevant files/context. Establish objective "fact floor."
      Chair names the emotional arc in one sentence.
+     (Mode B is already selected at this point via the decision matrix.)
 
 B-1: Round 1 — Problem Definition
      Each member defines the problem from their cognitive lens.
@@ -270,6 +272,7 @@ B-5: User Approval → Execution Handoff
 **Unresolved Dissent:**
 | Issue | Position A | Position B | Chair Ruling |
 |-------|-----------|-----------|-------------|
+| [issue] | [persona + position] | [persona + position] | [ruling or "deferred"] |
 
 **Awaiting approval.** Confirm to assign and execute.
 ```
