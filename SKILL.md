@@ -1,5 +1,6 @@
 ---
-name: openCouncil
+
+## name: openCouncil
 version: 1.0.0
 description: >-
   Pluggable multi-persona deliberation engine. Bring any set of personas —
@@ -8,7 +9,6 @@ description: >-
   consensus/dissent tracking, and optional approval workflows.
   Works in any AI IDE that supports markdown skill files.
 tags: [multi-agent, council, deliberation, personas, debate, decision-making, roundtable]
----
 
 # openCouncil — Pluggable Multi-Persona Deliberation Engine
 
@@ -79,14 +79,16 @@ seats:
 
 openCouncil activates when the user says any of:
 
-| Trigger | Action |
-|---------|--------|
-| `council: <topic>` | Run discussion with loaded/default config |
-| `council with <roles>: <topic>` | Auto-generate inline personas and run |
-| `council setup` | Interactive config wizard |
-| `council config` | Show current config |
-| `council help` | Command reference |
-| "ask the council", "let the council discuss", "roundtable on this" | Natural language triggers |
+
+| Trigger                                                            | Action                                    |
+| ------------------------------------------------------------------ | ----------------------------------------- |
+| `council: <topic>`                                                 | Run discussion with loaded/default config |
+| `council with <roles>: <topic>`                                    | Auto-generate inline personas and run     |
+| `council setup`                                                    | Interactive config wizard                 |
+| `council config`                                                   | Show current config                       |
+| `council help`                                                     | Command reference                         |
+| "ask the council", "let the council discuss", "roundtable on this" | Natural language triggers                 |
+
 
 ---
 
@@ -197,6 +199,7 @@ Multi-round deliberation. Best for architectural decisions, strategy pivots,
 and anything that needs a structured approval.
 
 **Triggers:**
+
 - User explicitly asks for "roundtable", "deep discussion", "need approval"
 - Topic involves irreversible changes, multi-team impact, or significant cost
 
@@ -229,6 +232,7 @@ B-5: User Approval → Execution Handoff
 ```
 
 **Constraints:**
+
 - 2-5 sentences per speaker per round
 - Max 4 rounds (if not converging, the problem needs to be split)
 - New user input mid-discussion is absorbed in-round, doesn't restart the flow
@@ -269,20 +273,16 @@ Only named members speak. Chair still opens and closes unless told otherwise.
 ### Speaking Rules
 
 1. **First person.** Every persona speaks as "I", in their own voice.
-   - Correct: "I think this API is over-engineered."
-   - Wrong: "Musk would probably say this is over-engineered."
-
+  - Correct: "I think this API is over-engineered."
+  - Wrong: "Musk would probably say this is over-engineered."
 2. **Ground in mental models.** Every statement must connect to at least one
-   mental model from the persona's definition. No generic "good idea" or "I agree."
-
+  mental model from the persona's definition. No generic "good idea" or "I agree."
 3. **Honest boundaries.** If a topic is outside the persona's domain, they say
-   "This isn't my area" and yield. Do not fabricate expertise.
-
+  "This isn't my area" and yield. Do not fabricate expertise.
 4. **Direct address.** Personas can (and should) respond to each other by name.
-   "I disagree with what the Architect said about scaling — here's why."
-
+  "I disagree with what the Architect said about scaling — here's why."
 5. **Dissent is mandatory structure.** If all personas agree, fine. But the
-   protocol explicitly creates space for disagreement. Never manufacture fake
+  protocol explicitly creates space for disagreement. Never manufacture fake
    consensus, and never manufacture fake disagreement for drama.
 
 ### Topic-Adaptive Weighting
@@ -300,7 +300,7 @@ The chair should explicitly note which personas have domain authority on the top
 The chair persona has additional duties:
 
 1. **Open:** Frame the question. Challenge whether the question itself is right.
-   Define what's a hard constraint vs. a challengeable assumption.
+  Define what's a hard constraint vs. a challengeable assumption.
 2. **Moderate:** If discussion drifts, redirect. If a persona dominates, rebalance.
 3. **Close:** Synthesize consensus, document dissent, propose concrete next steps.
 
@@ -423,7 +423,9 @@ No dependencies. No CLI tools. No API keys. Just a markdown file and your person
 ## Acknowledgments
 
 Inspired by:
+
 - [Roundtable](https://github.com/robbyczgw-cla/roundtable) — Multi-agent debate council
 - [Cursor Council](https://github.com/fiale-plus/cursor-council) — Multi-model debate in Cursor
 - [Dialectic-Agentic](https://github.com/slior/dialectic-agentic) — Configurable debate framework
 - [Nuwa Skill](https://github.com/alchaincyf/nuwa-skill) — Persona distillation methodology
+
