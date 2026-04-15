@@ -64,8 +64,12 @@ council with a pragmatist, an architect, and a devil's advocate: Should we migra
 |---------|-------------|
 | **Pluggable Personas** | Use inline definitions, external persona files, or auto-generated roles |
 | **Three Discussion Modes** | Quick (single round), Roundtable (multi-round + approval), Designated (specific members only) |
+| **Auto Mode Selection** | Decision matrix (reversible/irreversible × impact scope) picks the right mode |
+| **Anti-False-Consensus** | Two-level check: soft probe ("what worries you most?") → Devil's Advocate if needed |
+| **Cross-Debate Triggers** | Three explicit conditions: contradiction, anti-consensus escalation, chair judgment |
+| **Per-Person Confidence** | Each persona rates their confidence (High/Medium/Low) with a one-sentence rationale |
+| **Emotional Arc** | Chair sets the discussion's emotional intention at Step 0 |
 | **Topic-Adaptive Weighting** | Personas speak more when the topic matches their expertise |
-| **Cross-Examination** | Personas challenge each other's positions directly |
 | **Honest Boundaries** | Personas admit when something is outside their domain |
 | **Approval Workflow** | Structured decision forms for high-stakes choices |
 | **Session Logging** | Persist discussions for institutional memory |
@@ -75,13 +79,13 @@ council with a pragmatist, an architect, and a devil's advocate: Should we migra
 
 ### Mode A: Quick Discussion
 
-Single round. Chair opens → members speak → cross-debate → chair synthesizes.
+Single round. Chair sets emotional arc → opens → members speak → anti-consensus check → cross-debate → chair synthesizes with per-person confidence.
 
 Best for: sanity checks, lightweight reviews, quick opinions.
 
 ### Mode B: Roundtable
 
-Multi-round deliberation with fact-finding, problem definition, solution debate, convergence, and optional approval forms.
+Multi-round deliberation with fact-finding, problem definition, solution debate, anti-consensus check, convergence with confidence scores, and optional approval forms.
 
 Best for: architecture decisions, strategy pivots, irreversible changes.
 

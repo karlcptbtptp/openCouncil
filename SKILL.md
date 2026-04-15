@@ -1,7 +1,7 @@
 ---
 
 ## name: openCouncil
-version: 1.0.0
+version: 1.1.0
 description: >-
   Pluggable multi-persona deliberation engine. Bring any set of personas —
   real people, fictional archetypes, or inline role definitions — and
@@ -126,6 +126,18 @@ council:
     log_path: "memory/council/"  # Where to save logs
 ```
 
+### Auto Mode Decision Matrix
+
+When `mode: "auto"`, the chair selects the discussion mode at Step 0 using this matrix:
+
+| Decision is…  | Impact ≤ 1 team | Impact > 1 team |
+|---------------|-----------------|-----------------|
+| **Reversible**    | Mode A (Quick)  | Mode A (Quick)  |
+| **Irreversible**  | Mode A (Quick)  | Mode B (Roundtable) |
+
+Heuristic: default to Mode A unless the topic is **both irreversible AND multi-team impact**.
+The chair must state the chosen mode and the reasoning in one sentence at Step 0.
+
 ### Persona Resolution Order
 
 1. `inline_persona` in the seat definition (highest priority)
@@ -182,11 +194,15 @@ Single round. Best for clear-cut questions, sanity checks, and lightweight revie
 **Flow:**
 
 ```
-Step 0: Topic Confirmation
+Step 0: Topic Confirmation + Emotional Intention
+        Confirm the topic. Chair names the emotional arc of this discussion
+        in one sentence — e.g. "This should move from doubt to clarity"
+        or "We start concerned and end with a ranked action list."
 Step 1: Chair opens (frames the question, sets boundaries)
 Step 2: All members speak in order (2-4 sentences each)
-Step 3: Cross-debate on disagreements (if any)
-Step 4: Chair synthesizes (consensus, dissent, action items)
+Step 3: Anti-Consensus Check (see §Anti-False-Consensus)
+Step 4: Cross-debate on disagreements (see §Cross-Debate Triggers)
+Step 5: Chair synthesizes (consensus, dissent, action items, per-person confidence)
 ```
 
 **Word budget:** 800–1500 total.
@@ -206,9 +222,9 @@ and anything that needs a structured approval.
 **Flow:**
 
 ```
-B-0: Fact-Finding
+B-0: Fact-Finding + Emotional Intention
      Read relevant files/context. Establish objective "fact floor."
-     All discussion must stand on this floor, no armchair speculation.
+     Chair names the emotional arc in one sentence.
 
 B-1: Round 1 — Problem Definition
      Each member defines the problem from their cognitive lens.
@@ -219,8 +235,10 @@ B-2: Round 2 — Solution Debate
      Direct rebuttals allowed. New constraints welcome.
      Goal: all options and concerns on the table.
 
+B-2.5: Anti-Consensus Check (see §Anti-False-Consensus)
+
 B-3: Round 3 — Convergence
-     Chair attempts synthesis.
+     Chair attempts synthesis with per-person confidence scores.
      Persuaded disagreements → consensus.
      Unresolvable disagreements → documented dissent with both positions.
 
@@ -285,6 +303,43 @@ Only named members speak. Chair still opens and closes unless told otherwise.
   protocol explicitly creates space for disagreement. Never manufacture fake
    consensus, and never manufacture fake disagreement for drama.
 
+### Anti-False-Consensus
+
+Unanimous agreement can be genuine or a sign of groupthink. Use a two-level check:
+
+**Level 1 — Soft Probe (always runs):**
+After all members speak, the chair asks each persona one question:
+> "What is the one thing about this direction that worries you most?"
+
+Each persona must answer in 1 sentence, grounded in their mental models.
+If at least one persona surfaces a substantive concern, proceed to Cross-Debate.
+
+**Level 2 — Devil's Advocate (triggers when Level 1 yields zero concerns):**
+If every persona answers "nothing worries me" or equivalent:
+- The chair designates the persona with the **lowest domain relevance** to the topic
+  as temporary Devil's Advocate.
+- That persona must construct the strongest possible counter-argument (steel-man the opposite).
+- Other personas respond. If no one changes position, consensus is confirmed as genuine.
+
+This mechanism is structural, not theatrical. Skip Level 2 if Level 1 already produced disagreement.
+
+---
+
+### Cross-Debate Triggers
+
+Cross-debate activates when **any** of the following conditions is met:
+
+1. **Direct contradiction:** Two or more personas state opposing positions on the same sub-question.
+2. **Anti-consensus escalation:** Level 1 soft probe surfaces a concern that at least one other persona explicitly disagrees with.
+3. **Chair judgment:** The chair identifies a latent tension that personas haven't directly confronted and calls for targeted debate.
+
+When triggered, the chair names the specific disagreement and the two (or more) personas involved.
+Each side gets one rebuttal (2-3 sentences). The chair may allow one additional exchange if the positions are evolving.
+
+Cross-debate does **not** trigger when disagreements are merely about emphasis or priority ordering — those are captured in the synthesis as "nuance differences," not debated.
+
+---
+
 ### Topic-Adaptive Weighting
 
 When seats have `weight_topics` defined and the discussion topic matches:
@@ -331,16 +386,23 @@ Synthesis block:
 ```markdown
 ### 🔵 Chair Synthesis — [Chair Name]
 
+**Per-Person Confidence:**
+| Persona | Confidence | Rationale (1 sentence) |
+|---------|-----------|----------------------|
+| [Name]  | High / Medium / Low | [why they are this confident] |
+
 **Consensus:**
 1. [point]
 
 **Unresolved Dissent:**
-1. [issue] — [Position A] vs [Position B]
+| Issue | Position A | Position B | Chair Ruling |
+|-------|-----------|-----------|-------------|
+| [issue] | [persona + position] | [persona + position] | [ruling or "deferred"] |
 
 **Recommended Actions:**
 1. [concrete action]
 
-**Confidence:** High / Medium / Low
+**Overall Confidence:** High / Medium / Low
 ```
 
 ---
