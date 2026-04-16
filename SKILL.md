@@ -1,7 +1,7 @@
 ---
 
 ## name: openCouncil
-version: 1.1.0
+version: 1.2.0
 description: >-
   Pluggable multi-persona deliberation engine. Bring any set of personas —
   real people, fictional archetypes, or inline role definitions — and
@@ -194,16 +194,31 @@ Single round. Best for clear-cut questions, sanity checks, and lightweight revie
 **Flow:**
 
 ```
-Step 0: Topic Confirmation + Emotional Intention + Mode Selection
-        Confirm the topic. Chair names the emotional arc of this discussion
-        in one sentence — e.g. "This should move from doubt to clarity"
-        or "We start concerned and end with a ranked action list."
-        Select discussion mode using the Auto Mode Decision Matrix (see above).
-Step 1: Chair opens (frames the question, sets boundaries)
-Step 2: All members speak in order (2-4 sentences each)
-Step 3: Anti-Consensus Check (see §Anti-False-Consensus)
-Step 4: Cross-debate on disagreements (see §Cross-Debate Triggers)
-Step 5: Chair synthesizes (consensus, dissent, action items, per-person confidence)
+Step 0: Topic Confirmation + Discussion Direction + Mode Selection
+        Confirm the topic. Chair names the direction of this discussion
+        in one sentence — where we start and where we want to end.
+        Select discussion mode using the Auto Mode Decision Matrix.
+
+        Direction examples by topic type:
+        - User has a plan but is unsure   → "From hesitation → commit or reject"
+        - User has a question, no leads   → "From divergence → ranked actions"
+        - User has data but no conclusion → "From data → actionable judgment"
+        - Multiple options, need tradeoff → "From many options → one path + why"
+
+Step 1: Chair opens
+        Frame the question, set boundaries, announce speaking order
+        based on topic-weight relevance (high-weight personas speak first).
+
+Step 2: Members speak (in topic-relevance order)
+        Each persona speaks in the order the chair announced.
+        High-weight: 3-5 sentences. Low-weight: 1-2 sentences or pass.
+        Every persona must end with their top concern about the
+        current direction. (see §Embedded Concern Rule)
+
+Step 3: Cross-debate (if triggered — see §Cross-Debate Triggers)
+
+Step 4: Chair synthesizes
+        Consensus, dissent, action items, per-person confidence.
 ```
 
 **Word budget:** 800–1500 total.
@@ -223,10 +238,10 @@ and anything that needs a structured approval.
 **Flow:**
 
 ```
-B-0: Fact-Finding + Emotional Intention + Mode Selection
+B-0: Fact-Finding + Discussion Direction
      Read relevant files/context. Establish objective "fact floor."
-     Chair names the emotional arc in one sentence.
-     (Mode B is already selected at this point via the decision matrix.)
+     Chair names the discussion direction in one sentence
+     (see Step 0 direction examples).
 
 B-1: Round 1 — Problem Definition
      Each member defines the problem from their cognitive lens.
@@ -235,9 +250,8 @@ B-1: Round 1 — Problem Definition
 B-2: Round 2 — Solution Debate
      Each member proposes or critiques solutions.
      Direct rebuttals allowed. New constraints welcome.
+     Each member must end with their top concern (same as Mode A Step 2).
      Goal: all options and concerns on the table.
-
-B-2.5: Anti-Consensus Check (see §Anti-False-Consensus)
 
 B-3: Round 3 — Convergence
      Chair attempts synthesis with per-person confidence scores.
@@ -305,26 +319,27 @@ Only named members speak. Chair still opens and closes unless told otherwise.
 5. **Dissent is mandatory structure.** If all personas agree, fine. But the
   protocol explicitly creates space for disagreement. Never manufacture fake
    consensus, and never manufacture fake disagreement for drama.
+6. **End with a concern.** Every persona must close their speech with one
+  sentence naming their biggest worry about the current direction.
+  Only say "I have no additional concerns" if genuinely satisfied.
+  This is the core anti-groupthink mechanism — take it seriously.
 
-### Anti-False-Consensus
+### Embedded Concern Rule
 
-Unanimous agreement can be genuine or a sign of groupthink. Use a two-level check:
+Instead of a separate anti-consensus round, concerns are embedded directly into
+each persona's speech (see Speaking Rule 6). This produces better results because:
 
-**Level 1 — Soft Probe (always runs):**
-After all members speak, the chair asks each persona one question:
-> "What is the one thing about this direction that worries you most?"
+- Concerns come with context from the speech, not as disconnected one-liners
+- It's one fewer round, making the discussion tighter
+- Personas naturally surface tensions as they form their arguments
 
-Each persona must answer in 1 sentence, grounded in their mental models.
-If at least one persona surfaces a substantive concern, proceed to Cross-Debate.
+**Zero-Concern Fallback (rarely needed):**
 
-**Level 2 — Devil's Advocate (triggers when Level 1 yields zero concerns):**
-If every persona answers "nothing worries me" or equivalent:
-- The chair designates the persona with the **lowest domain relevance** to the topic
-  as temporary Devil's Advocate.
-- That persona must construct the strongest possible counter-argument (steel-man the opposite).
-- Other personas respond. If no one changes position, consensus is confirmed as genuine.
-
-This mechanism is structural, not theatrical. Skip Level 2 if Level 1 already produced disagreement.
+If every persona reports no concerns:
+- The chair constructs the **strongest possible counter-argument**, synthesized
+  from all perspectives — not delegated to the least relevant persona
+- Names 1-2 relevant personas to respond
+- If no one changes position after response, consensus is confirmed as genuine
 
 ---
 
@@ -333,7 +348,7 @@ This mechanism is structural, not theatrical. Skip Level 2 if Level 1 already pr
 Cross-debate activates when **any** of the following conditions is met:
 
 1. **Direct contradiction:** Two or more personas state opposing positions on the same sub-question.
-2. **Anti-consensus escalation:** Level 1 soft probe surfaces a concern that at least one other persona explicitly disagrees with.
+2. **Concern collision:** A concern raised by one persona is explicitly disputed by another.
 3. **Chair judgment:** The chair identifies a latent tension that personas haven't directly confronted and calls for targeted debate.
 
 When triggered, the chair names the specific disagreement and the two (or more) personas involved.
@@ -341,17 +356,19 @@ Each side gets one rebuttal (2-3 sentences). The chair may allow one additional 
 
 Cross-debate does **not** trigger when disagreements are merely about emphasis or priority ordering — those are captured in the synthesis as "nuance differences," not debated.
 
+If no conditions are met and the zero-concern fallback is unnecessary, skip cross-debate entirely.
+
 ---
 
 ### Topic-Adaptive Weighting
 
 When seats have `weight_topics` defined and the discussion topic matches:
 
-- **High relevance:** 4-5 sentences, speak earlier, opinions carry more weight in synthesis
-- **Medium relevance:** 2-4 sentences, normal position
-- **Low relevance:** 1-2 sentences, or "I have nothing to add on this"
+- **High relevance:** speak **first**, 3-5 sentences, opinions carry more weight in synthesis
+- **Medium relevance:** middle position, 2-4 sentences
+- **Low relevance:** speak last, 1-2 sentences, or "I have nothing to add on this"
 
-The chair should explicitly note which personas have domain authority on the topic.
+The chair announces the speaking order at Step 1 based on this weighting.
 
 ### Chair Responsibilities
 
@@ -359,6 +376,7 @@ The chair persona has additional duties:
 
 1. **Open:** Frame the question. Challenge whether the question itself is right.
   Define what's a hard constraint vs. a challengeable assumption.
+  **Announce speaking order** based on topic-weight relevance.
 2. **Moderate:** If discussion drifts, redirect. If a persona dominates, rebalance.
 3. **Close:** Synthesize consensus, document dissent, propose concrete next steps.
 
@@ -372,6 +390,7 @@ Each persona's speech block:
 ### [emoji] Persona Name
 
 [First-person speech, 2-5 sentences, grounded in their mental models]
+> Concern: [one sentence]
 ```
 
 Cross-debate block:
